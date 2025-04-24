@@ -1,7 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - DrPlan-deployment.yaml
-  - DrPlan-service.yaml
-  - DrPlan-ingress.yaml
-
+- DrPlan-deployment.yaml
+- DrPlan-service.yaml
+- DrPlan-ingress.yaml
+images:
+- name: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan
+  newName: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan
+  newTag: f4de046d
