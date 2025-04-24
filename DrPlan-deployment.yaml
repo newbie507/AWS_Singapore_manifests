@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: drplan-deployment
   namespace: default
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: web
+      app: DrPlan
   template:
     metadata:
       labels:
-        app: web
+        app: DrPlan
     spec:
       containers:
         - name: web
-          image: 390844776196.dkr.ecr.ap-northeast-2.amazonaws.com/web:latest
+          image: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
