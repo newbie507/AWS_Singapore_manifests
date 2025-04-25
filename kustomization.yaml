@@ -7,4 +7,4 @@ resources:
 images:
 - name: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan
   newName: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan
-  newTag: fd4f6ccc
+  newTag: 5c6490f2
