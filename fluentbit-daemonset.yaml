@@ -29,6 +29,18 @@ spec:
             - containerPort: 2020
               name: api
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 2020
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 2020
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             limits:
               memory: 200Mi
