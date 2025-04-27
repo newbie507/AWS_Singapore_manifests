@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: fluentd
+  template:
+    metadata:
+      labels:
+        name: fluentd
+    spec:
+      containers:
+        - name: fluentd
+          image: fluent/fluentd:v1.12.0-1
+          resources:
+            requests:
+              memory: "500Mi"  # 최소 메모리 요청
+              cpu: "500m"  # 최소 CPU 요청
+            limits:
+              memory: "1Gi"  # 최대 메모리 제한
+              cpu: "1"  # 최대 CPU 제한
+          env:
+            - name: AWS_REGION
+              value: "ap-northeast-2"  # AWS 리전 설정
+          volumeMounts:
+            - name: fluentd-config
+              mountPath: /fluentd/etc  # Fluentd 설정 파일 경로
+            - name: logs
+              mountPath: /var/log/containers  # Kubernetes 로그 경로
+      volumes:
+        - name: fluentd-config
+          configMap:
+            name: fluentd-config  # Fluentd 설정을 담은 ConfigMap
+        - name: logs
+          hostPath:
+            path: /var/log/containers  # 로그 위치 (모든 노드에서 로그를 수집)
+            type: Directory
+

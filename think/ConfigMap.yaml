@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: kube-system
+data:
+  fluentd.conf: |
+    # Fluentd Configuration File
+    
+    # Kubernetes 로그 소스 (Pod 로그)
+    <source>
+      @type tail
+      path /var/log/containers/*.log  # Kubernetes 로그 파일 경로
+      pos_file /fluentd/log/container.pos  # Fluentd 상태 파일 (로그 상태 추적)
+      tag kubernetes.*  # 태그 설정 (CloudWatch에서 필터링에 사용됨)
+      format json  # 로그 포맷 (JSON)
+    </source>
+
+    # CloudWatch로 로그 전송
+    <match kubernetes.**>
+      @type cloudwatch_logs
+      log_group_name fluentd-log-group  # 로그 그룹 이름
+      log_stream_name fluentd-log-stream-${hostname}  # 로그 스트림 이름
+      region ${AWS_REGION}  # AWS 리전 (환경 변수로 설정)
+      auto_create_group true  # 로그 그룹이 없을 경우 자동 생성
+    </match>
+
+    # S3로 로그 전송
+    <match kubernetes.**>
+      @type s3
+      path /fluentd/logs  # 로그 파일을 저장할 경로
+      s3_bucket dr.plan  # S3 버킷 이름 (수정된 부분)
+      s3_region ${AWS_REGION}  # S3 버킷 리전
+      time_slice_format %Y%m%d%H  # 로그를 시간 단위로 분할
+      time_slice_wait 10m  # 로그 저장 대기 시간
+      time_zone Asia/Seoul  # 한국 시간(KST, GMT+9)으로 설정
+      buffer_type file  # 파일로 로그 버퍼링
+      buffer_path /fluentd/log/buffer  # 버퍼 파일 경로
+      flush_interval 10s  # 로그 전송 간격
+      chunk_limit_size 256m  # 로그 덩어리 크기
+      total_limit_size 10g  # 총 버퍼 크기
+      retry_wait 30s  # 재시도 대기 시간
+      retry_max_times 10  # 재시도 최대 횟수
+    </match>
+

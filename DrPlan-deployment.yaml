@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +15,9 @@ spec:
     spec:
       containers:
         - name: web
-          image: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan:latest
+          image: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+
+
