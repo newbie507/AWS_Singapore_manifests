@@ -4,8 +4,8 @@ resources:
 - DrPlan-deployment.yaml
 - DrPlan-service.yaml
 - DrPlan-ingress.yaml
-- fluentbit-configmap.yaml
-- fluentbit-serviceaccount.yaml
+- fluentbit-configmap.yaml  
+- fluentbit-serviceaccount.yaml 
 - fluentbit-daemonset.yaml
 images:
 - name: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan
