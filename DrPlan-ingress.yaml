@@ -14,6 +14,8 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-path: /index.jsp
 spec:
   rules:
+    matchLabels:
+      app: drplan-ingress
     - http:
         paths:
           - path: /
