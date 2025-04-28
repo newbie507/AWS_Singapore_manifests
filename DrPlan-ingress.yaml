@@ -1,10 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "drplan-ingress"
-  namespace: default
+  name: drplan-ingress
+  namespace: app  
   labels:
-    app: drplan-ingress 
+    app: drplan-ingress
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
@@ -14,30 +14,26 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-path: /index.jsp
 spec:
   rules:
-    matchLabels:
-      app: drplan-ingress
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: drplan-service
-                port:
-                  number: 8080
-          - path: /index.jsp
-            pathType: Exact
-            backend:
-              service:
-                name: drplan-service
-                port:
-                  number: 8080
-          - path: /contents
-            pathType: Prefix
-            backend:
-              service:
-                name: drplan-service
-                port:
-                  number: 8080
-
-
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: drplan-service
+            port:
+              number: 8080
+      - path: /index.jsp
+        pathType: Exact
+        backend:
+          service:
+            name: drplan-service
+            port:
+              number: 8080
+      - path: /contents
+        pathType: Prefix
+        backend:
+          service:
+            name: drplan-service
+            port:
+              number: 8080
