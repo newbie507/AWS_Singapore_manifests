@@ -10,6 +10,9 @@ data:
         Log_Level    info
         Daemon       Off
         Parsers_File parsers.conf
+        HTTP_Server  On
+        HTTP_Listen  0.0.0.0
+        HTTP_Port    2020
 
     [INPUT]
         Name              tail
@@ -28,13 +31,20 @@ data:
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
         Parser syslog
+    [FILTER]
+        Name                kubernetes
+        Match               kube.*
+        Merge_Log           On
+        Keep_Log            On
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude On
 
     [OUTPUT]
         Name cloudwatch_logs
-        Match *
-        region ${AWS_REGION}
+        Match kube.*
+        region ap-northeast-2
         log_group_name /eks/${kubernetes['namespace_name']}-logs/${kubernetes['labels']['app']}
-        log_stream_prefix from-fluentbit-
+        log_stream_prefix ${kubernetes['pod_name']}.
         auto_create_group true
   parsers.conf: |
     [PARSER]
