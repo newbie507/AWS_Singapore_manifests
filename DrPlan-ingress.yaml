@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: "drplan-ingress"
   namespace: default
+  labels:
+    app: drplan-ingress 
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
