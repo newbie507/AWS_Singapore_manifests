@@ -13,39 +13,92 @@ data:
         HTTP_Server  On
         HTTP_Listen  0.0.0.0
         HTTP_Port    2020
+        # Fluent Bit 메인 설정
+        # 1초 주기로 로그 전송, HTTP 서버 ON
+
+    # ========== 수집 대상 설정 [INPUT] ==========
 
     [INPUT]
-        Name              tail
-        Path              /var/log/containers/*.log
-        Parser            docker
-        Tag               kube.*
-        Refresh_Interval  5
-        Mem_Buf_Limit     5MB
-        Skip_Long_Lines   On
+        Name tail
+        Path /var/log/containers/*.log
+        Parser docker
+        Tag kube.*
+        Refresh_Interval 5
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+        # [INPUT #1] 모든 파드 컨테이너 로그 수집
 
     [INPUT]
         Name tail
         Path /var/log/messages
+        Parser syslog
         Tag system.messages
         Refresh_Interval 5
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
+        # [INPUT #2] 노드 시스템 로그 수집
+
+    [INPUT]
+        Name tail
+        Path /var/log/kubelet.log
         Parser syslog
+        Tag system.kubelet
+        Refresh_Interval 5
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+        # [INPUT #3] kubelet 로그 수집
+
+    [INPUT]
+        Name tail
+        Path /var/log/kube-proxy.log
+        Parser syslog
+        Tag system.kubeproxy
+        Refresh_Interval 5
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+        # [INPUT #4] kube-proxy 로그 수집
+
+    # ========== Kubernetes 메타데이터 및 필터링 설정 [FILTER] ==========
+
     [FILTER]
-        Name                kubernetes
-        Match               kube.*
-        Merge_Log           On
-        Keep_Log            On
-        K8S-Logging.Parser  On
+        Name kubernetes
+        Match kube.*
+        Merge_Log On
+        Keep_Log On
+        K8S-Logging.Parser On
         K8S-Logging.Exclude On
+        # [FILTER #1] Kubernetes 메타데이터 추가 (네임스페이스, 파드이름 등)
+
+    [FILTER]
+        Name grep
+        Match kube.*
+        Regex $kubernetes['pod_name'] aws-node.*
+        # [FILTER #2] aws-node 파드 로그 필터링
+
+    [FILTER]
+        Name grep
+        Match kube.*
+        Regex $kubernetes['pod_name'] coredns.*
+        # [FILTER #3] coredns 파드 로그 필터링
+
+    [FILTER]
+        Name grep
+        Match kube.*
+        Regex $kubernetes['pod_name'] fluent-bit.*
+        # [FILTER #4] fluent-bit 파드 로그 필터링
+
+    # ========== CloudWatch Logs 출력 [OUTPUT] ==========
 
     [OUTPUT]
         Name cloudwatch_logs
-        Match kube.*
+        Match *
         region ap-northeast-2
         log_group_name /eks/${kubernetes['namespace_name']}-logs/${kubernetes['labels']['app']}
-        log_stream_prefix ${kubernetes['pod_name']}.
+        log_stream_prefix ${kubernetes['pod_name']}-
         auto_create_group true
+        # [OUTPUT] CloudWatch로 모든 로그 전송
+        # 네임스페이스별 + 앱별로 구분된 로그 그룹 생성
+
   parsers.conf: |
     [PARSER]
         Name        docker
@@ -53,3 +106,4 @@ data:
         Time_Key    time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
         Time_Keep   On
+        # Docker JSON 포맷 파서
