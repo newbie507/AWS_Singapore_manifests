@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: drplan-deployment
   namespace: default
+  labels:
+  app: drplan-deployment 
 spec:
   replicas: 3
   selector:
