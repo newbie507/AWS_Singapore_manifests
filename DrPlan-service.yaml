@@ -2,11 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: drplan-service
+  labels:
+    app: drplan-service 
   annotations:
     alb.ingress.kubernetes.io/healthcheck-path: "/index.jsp"
 spec:
   selector:
-    app: DrPlan
+    matchLabels:
+      app: drplan-service
   type: ClusterIP
   ports:
     - port: 8080 # 서비스가 생성할 포트  
