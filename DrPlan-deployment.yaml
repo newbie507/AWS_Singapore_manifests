@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/너의-git-repo/drplan-infra.git'
+    repoURL: 'https://github.com/newbie507/AWSmanifests.git'
     targetRevision: HEAD
     path: .
   destination:
