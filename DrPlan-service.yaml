@@ -4,12 +4,10 @@ metadata:
   name: drplan-service
   namespace: app  
   labels:
-    app: drplan-deployment  
-  annotations:
-    alb.ingress.kubernetes.io/healthcheck-path: "/index.jsp"
+    app: drplan-app  
 spec:
   selector:
-    app: drplan-deployment  
+    app: drplan-app  
   type: ClusterIP
   ports:
   - port: 8080

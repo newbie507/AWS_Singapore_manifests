@@ -15,7 +15,7 @@ metadata:
 spec:
   rules:
   - host: alb.nohty94.shop
-  - http:
+    http:
       paths:
       - path: /
         pathType: Prefix

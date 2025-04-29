@@ -1,20 +1,22 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: drplan-app
-  namespace: argocd
+  name: drplan-app-deployment
+  namespace: app    
+  labels:
+    app: drplan-app
 spec:
-  project: default
-  source:
-    repoURL: 'https://github.com/newbie507/AWSmanifests.git'
-    targetRevision: HEAD
-    path: .
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: app
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
+  replicas: 3    
+  selector:
+    matchLabels:
+      app: drplan-app
+  template:
+    metadata:
+      labels:
+        app: drplan-app
+    spec:
+      containers:
+      - name: drplan-app-container
+        image: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan-ecr-seoul-repo:latest
+        ports:
+        - containerPort: 8080
