@@ -1,23 +1,20 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
-  name: drplan-deployment
-  namespace: app 
-  labels:
-    app: drplan-deployment  
+  name: drplan-app
+  namespace: argocd
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: drplan-deployment
-  template:
-    metadata:
-      labels:
-        app: drplan-deployment
-    spec:
-      containers:
-      - name: web
-        image: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
+  project: default
+  source:
+    repoURL: 'https://github.com/너의-git-repo/drplan-infra.git'
+    targetRevision: HEAD
+    path: .
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
