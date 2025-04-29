@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: drplan-app-deployment
-  namespace: app    
+  namespace: drplan-app    
   labels:
-    app: drplan-app
+    app: drplan
 spec:
   replicas: 3    
   selector:
     matchLabels:
-      app: drplan-app
+      app: drplan
   template:
     metadata:
       labels:
-        app: drplan-app
+        app: drplan
     spec:
       containers:
       - name: drplan-app-container
