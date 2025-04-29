@@ -22,7 +22,7 @@ data:
         Name tail
         Path /var/log/containers/*.log
         Parser docker
-        Tag kube.*
+        Tag seoul.*
         Refresh_Interval 5
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
@@ -32,7 +32,7 @@ data:
         Name tail
         Path /var/log/messages
         Parser syslog
-        Tag system.messages
+        Tag seoul.system.messages
         Refresh_Interval 5
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
@@ -42,7 +42,7 @@ data:
         Name tail
         Path /var/log/kubelet.log
         Parser syslog
-        Tag system.kubelet
+        Tag seoul.system.kubelet
         Refresh_Interval 5
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
@@ -52,7 +52,7 @@ data:
         Name tail
         Path /var/log/kube-proxy.log
         Parser syslog
-        Tag system.kubeproxy
+        Tag seoul.system.kubeproxy
         Refresh_Interval 5
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
@@ -62,7 +62,7 @@ data:
 
     [FILTER]
         Name kubernetes
-        Match kube.*
+        Match seoul.*
         Merge_Log On
         Keep_Log On
         K8S-Logging.Parser On
@@ -71,19 +71,19 @@ data:
 
     [FILTER]
         Name grep
-        Match kube.*
+        Match seoul.*
         Regex $kubernetes['pod_name'] aws-node.*
         # [FILTER #2] aws-node 파드 로그 필터링
 
     [FILTER]
         Name grep
-        Match kube.*
+        Match seoul.*
         Regex $kubernetes['pod_name'] coredns.*
         # [FILTER #3] coredns 파드 로그 필터링
 
     [FILTER]
         Name grep
-        Match kube.*
+        Match seoul.*
         Regex $kubernetes['pod_name'] fluent-bit.*
         # [FILTER #4] fluent-bit 파드 로그 필터링
 
@@ -91,9 +91,9 @@ data:
 
     [OUTPUT]
         Name cloudwatch_logs
-        Match *
+        Match seoul.*
         region ap-northeast-2
-        log_group_name /eks/${kubernetes['namespace_name']}-logs/${kubernetes['labels']['app']}
+        log_group_name /eks/seoul-logs/${kubernetes['namespace_name']}-logs/${kubernetes['labels']['app']}
         log_stream_prefix ${kubernetes['pod_name']}-
         auto_create_group true
         # [OUTPUT] CloudWatch로 모든 로그 전송
