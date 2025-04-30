@@ -4,11 +4,11 @@ resources:
 - DrPlan-deployment.yaml
 - DrPlan-service.yaml
 - DrPlan-ingress.yaml
-- alb-ingress-class.yaml  
+- alb-ingress-class.yaml
 - fluentbit-configmap.yaml
 - fluentbit-serviceaccount.yaml
 - fluentbit-daemonset.yaml
 images:
 - name: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan-ecr-seoul-repo
   newName: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan-ecr-seoul-repo
-  newTag: b6de36e0
+  newTag: b2fe386e-1746028595
