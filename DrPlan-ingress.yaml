@@ -2,17 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: drplan-ingress
-  namespace: drplan-app  
+  namespace: drplan-app
   labels:
     app: drplan
   annotations:
-    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/group.name: eks-seoul-group
     alb.ingress.kubernetes.io/group.order: '1'
     alb.ingress.kubernetes.io/healthcheck-path: /index.jsp
 spec:
+  ingressClassName: alb
   rules:
   - http:
       paths:
@@ -37,3 +37,4 @@ spec:
             name: drplan-service
             port:
               number: 8080
+

@@ -4,6 +4,7 @@ resources:
 - DrPlan-deployment.yaml
 - DrPlan-service.yaml
 - DrPlan-ingress.yaml
+- alb-ingress-class.yaml  
 - fluentbit-configmap.yaml
 - fluentbit-serviceaccount.yaml
 - fluentbit-daemonset.yaml
