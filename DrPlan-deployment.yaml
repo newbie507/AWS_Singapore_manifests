@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: drplan-app-container
-        image: 253490772403.dkr.ecr.ap-northeast-2.amazonaws.com/drplan-ecr-seoul-repo:latest
+        image: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-singapore-repo:latest
         ports:
         - containerPort: 8080

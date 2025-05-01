@@ -851,7 +851,7 @@ spec:
     spec:
       containers:
       - args:
-        - --cluster-name=drplan-eks-seoul
+        - --cluster-name=drplan-eks-singapore
         - --ingress-class=alb
         image: public.ecr.aws/eks/aws-load-balancer-controller:v2.7.0
         livenessProbe:
