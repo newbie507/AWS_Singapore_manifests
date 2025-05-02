@@ -8,6 +8,9 @@ resources:
 - fluentbit-serviceaccount.yaml
 - fluentbit-daemonset.yaml
 images:
+- name: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-seoul-repo
+  newName: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-seoul-repo
+  newTag: c9dacf6a-1746199369
 - name: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-singapore-repo
   newName: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-singapore-repo
   newTag: b2fe386e-1746028595
