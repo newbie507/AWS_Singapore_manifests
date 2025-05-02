@@ -11,6 +11,7 @@ metadata:
     alb.ingress.kubernetes.io/group.name: eks-singapore-group
     alb.ingress.kubernetes.io/group.order: '1'
     alb.ingress.kubernetes.io/healthcheck-path: /index.jsp
+    kubernetes.io/ingress.class: "alb"
 spec:
   ingressClassName: alb
   rules:

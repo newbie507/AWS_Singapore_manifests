@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aws-load-balancer-controller
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: controller
+        image: public.ecr.aws/eks/aws-load-balancer-controller:v2.7.0
+        env:
+          - name: SERVER_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: aws-load-balancer-secret
+                key: server.secretkey
+
