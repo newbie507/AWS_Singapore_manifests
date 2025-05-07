@@ -4,9 +4,6 @@ resources:
 - DrPlan-deployment.yaml
 - DrPlan-service.yaml
 - DrPlan-ingress.yaml
-- fluentbit-configmap.yaml
-- fluentbit-serviceaccount.yaml
-- fluentbit-daemonset.yaml
 images:
 - name: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-singapore-repo
   newName: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-singapore-repo
