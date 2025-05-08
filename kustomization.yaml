@@ -10,4 +10,4 @@ resources:
 images:
 - name: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-singapore-repo
   newName: 253490772403.dkr.ecr.ap-southeast-1.amazonaws.com/drplan-ecr-singapore-repo
-  newTag: dda3c219-1746727511
+  newTag: 9a0434f5-1746728151
