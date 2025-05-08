@@ -23,19 +23,19 @@ spec:
           service:
             name: drplan-service
             port:
-              number: 8080
+              number: 80
       - path: /index.jsp
         pathType: Exact
         backend:
           service:
             name: drplan-service
             port:
-              number: 8080
+              number: 80
       - path: /contents
         pathType: Prefix
         backend:
           service:
             name: drplan-service
             port:
-              number: 8080
+              number: 80
 
